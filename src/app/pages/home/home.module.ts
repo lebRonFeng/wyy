@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { ShareModule } from '../../share/share.module';
-import { HomeComponent } from './home.component'
+import { HomeComponent } from './home.component';
+import { WyCarouselComponent } from './components/wy-carousel/wy-carousel.component'
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, WyCarouselComponent],
   imports: [
     CommonModule,
     ShareModule,
