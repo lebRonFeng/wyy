@@ -10,13 +10,6 @@ export type HotTag = {
     position: number;
 }
 
-// 歌单
-export type SongSheet = {
-    id: number;
-    name: string;
-    picUrl: string;
-    playCount: number;
-}
 
 // 歌手
 export type Singer = {
@@ -24,4 +17,23 @@ export type Singer = {
     name: string;
     picUrl: string;
     albumSize: number;
+}
+
+// 歌曲
+export type Song = {
+    id: number;
+    name: string;
+    url: string;
+    ar: string[];
+    al: {id: number; name: string; picUrl: string};
+    dt: number;
+}
+
+// 歌单
+export type SongSheet = {
+    id: number;
+    name: string;
+    picUrl: string;
+    playCount: number;
+    tracks: Song[];
 }
