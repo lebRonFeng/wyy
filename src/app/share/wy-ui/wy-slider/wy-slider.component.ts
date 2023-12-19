@@ -184,7 +184,8 @@ export class WySliderComponent implements OnInit, OnDestroy, ControlValueAccesso
     return valA === valB;
   }
   private updateTrackAndHandles() {
-    this.offset = this.getValueToOffset(this.offset)
+    this.offset = this.getValueToOffset(this.value);
+    this.cdr.markForCheck();
   }
   private getValueToOffset(value: SliderValue): SliderValue {
     return getPercent(this.wyMin, this.wyMax, value);
