@@ -3,9 +3,8 @@ import { Observable, Subscription, fromEvent, merge } from 'rxjs';
 import { distinctUntilChanged, filter, map, pluck, takeUntil, tap } from 'rxjs/internal/operators';
 import { SliderEventObserverConfig, SliderValue } from './wy-slider-types';
 import { DOCUMENT } from '@angular/common';
-import { sliderEvent } from './wy-slider-helper';
-import { isArray } from 'src/app/utils/array';
-import { getElementOffset } from 'ng-zorro-antd';
+import { sliderEvent,getElementOffset } from './wy-slider-helper';
+import { inArray } from 'src/app/utils/array';
 import { getPercent, limitNumberInRange } from 'src/app/utils/number';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -17,7 +16,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => WySliderComponent)
+    useExisting: forwardRef(() => WySliderComponent),
+    multi: true
   }]
 })
 export class WySliderComponent implements OnInit, OnDestroy, ControlValueAccessor {
@@ -47,7 +47,7 @@ export class WySliderComponent implements OnInit, OnDestroy, ControlValueAccesso
   ngOnInit() {
     this.sliderDom = this.wySlider.nativeElement
     this.createDraggingObservables();
-    this.subscribeDrag();
+    this.subscribeDrag(['start']);
   }
 
   private createDraggingObservables() {
@@ -105,28 +105,29 @@ export class WySliderComponent implements OnInit, OnDestroy, ControlValueAccesso
     this.dragEnd$ = merge(mouse.end$, touch.end$);
   }
 
-  private subscribeDrag(event: string[] = ['start', 'move', 'end']) {
-    if (isArray(event, 'start') && this.dragStart$ && !this.dragStart_) {
+  private subscribeDrag(events: string[] = ['start', 'move', 'end']) {
+    if (inArray(events, 'start') && this.dragStart$ && !this.dragStart_) {
       this.dragStart_ = this.dragStart$.subscribe(this.onDragStart.bind(this));
     }
-    if (isArray(event, 'move') && this.dragMove$ && !this.dragMove_) {
+    if (inArray(events, 'move') && this.dragMove$ && !this.dragMove_) {
       this.dragMove_ = this.dragMove$.subscribe(this.onDragMove.bind(this));
     }
-    if (isArray(event, 'end') && this.dragEnd$ && !this.dragEnd_) {
+    if (inArray(events, 'end') && this.dragEnd$ && !this.dragEnd_) {
       this.dragEnd_ = this.dragEnd$.subscribe(this.onDragEnd.bind(this));
     }
   }
 
-  private unsubscribeDrag(event: string[] = ['start', 'move', 'end']) {
-    if (isArray(event, 'start') && this.dragStart_) {
+
+  private unsubscribeDrag(events: string[] = ['start', 'move', 'end']) {
+    if (inArray(events, 'start') && this.dragStart_) {
       this.dragStart_.unsubscribe();
       this.dragStart_ = null;
     }
-    if (isArray(event, 'move') && this.dragMove_) {
+    if (inArray(events, 'move') && this.dragMove_) {
       this.dragMove_.unsubscribe();
       this.dragMove_ = null;
     }
-    if (isArray(event, 'end') && this.dragEnd_) {
+    if (inArray(events, 'end') && this.dragEnd_) {
       this.dragEnd_.unsubscribe();
       this.dragEnd_ = null;
     }
