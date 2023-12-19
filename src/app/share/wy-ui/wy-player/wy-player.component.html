@@ -11,7 +11,7 @@
         <i class="next"></i>
       </div>
       <div class="head">
-        <img src="https://p2.music.126.net/hZb7PdLOGyPqyaEqXSqw7A==/109951167493224386.jpg" alt="">
+        <img src="//s4.music.126.net/style/web2/img/default/default_album.jpg" />
         <i class="mask"></i>
       </div>
       <div class="play">
@@ -28,10 +28,10 @@
         </div>
         <div class="bar">
           <div class="slider-wrap">
-            <app-wy-slider [(ngModel)]="sliderValue"></app-wy-slider>
+            <app-wy-slider [bufferOffset]="bufferOffset" [(ngModel)]="sliderValue"></app-wy-slider>
           </div>
           <span class="time">
-            <em>02:11</em> / {{sliderValue}}
+            <em>02:11</em> / 04:35
           </span>
         </div>
       </div>
@@ -46,6 +46,9 @@
         <p class="open">
           <span></span>
         </p>
+        <div class="control-vol">
+          <app-wy-slider [wyVertical]="true"></app-wy-slider>
+        </div>
       </div>
     </div>
   </div>
